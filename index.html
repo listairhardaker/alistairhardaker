@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lunar Law</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="signal-bar">
+    <span class="signal-dot"></span>
+    <span>TRANSMITTING FROM SELENE BASE ALPHA</span>
+    <span class="sig-sep">·</span>
+    <span>384,400 KM</span>
+    <span class="sig-sep">·</span>
+    <span id="lst-clock">LST 00:00:00</span>
+  </div>
+
+  <nav>
+    <a href="#" class="wordmark">LUNAR<br>LAW</a>
+    <div class="nav-right">
+      <a href="#registry" class="nav-link">LAWS REGISTRY</a>
+      <a href="#about" class="nav-link">ABOUT</a>
+      <button class="nav-btn" id="auth-btn">SIGN IN</button>
+      <div class="nav-user hidden" id="nav-user">
+        <span id="user-label"></span>
+        <button class="sign-out-btn" id="sign-out-btn">SIGN OUT</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow">LATEST TRANSMISSION</div>
+    <div class="hero-body">
+      <div class="hero-ep-num" id="hero-ep-num">EP.001</div>
+      <div class="hero-main">
+        <h1 class="hero-title" id="hero-title"></h1>
+        <div class="hero-meta">
+          <span id="hero-proposer"></span>
+          <span class="dot-sep">·</span>
+          <span id="hero-date"></span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" id="hero-listen" href="#" target="_blank" style="display:none">LISTEN</a>
+          <button class="btn btn-outline" id="hero-view">VIEW LAW + VOTE</button>
+        </div>
+      </div>
+      <div class="hero-status-panel">
+        <div class="hsp-label">CURRENT STATUS</div>
+        <div class="hsp-status" id="hero-status">—</div>
+        <div class="hsp-votes" id="hero-votes">— votes</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="registry" id="registry">
+    <div class="registry-header">
+      <div class="registry-header-left">
+        <span class="section-label">LAWS REGISTRY</span>
+        <span class="entry-count" id="entry-count"></span>
+      </div>
+      <div class="filter-row" id="filter-row">
+        <button class="filter-btn active" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="passed">PASSED</button>
+        <button class="filter-btn" data-filter="under_review">UNDER REVIEW</button>
+        <button class="filter-btn" data-filter="proposed">PROPOSED</button>
+        <button class="filter-btn" data-filter="rejected">REJECTED</button>
+      </div>
+    </div>
+    <div class="laws-list" id="laws-list"></div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="section-label">ABOUT THE PROGRAMME</div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>The year is 2031. The first permanent human settlement on the moon is operational. It will eventually become home to everyone.</p>
+          <p>Broadcasting from Selene Base Alpha, the host of Lunar Law presents pre-recorded submissions from people across Earth, each proposing a law for the new lunar society. Every submission is reviewed, expanded in detail, and put to a public vote.</p>
+          <p>The host is alone up there. For now.</p>
+        </div>
+        <div class="about-meta">
+          <div class="meta-row">
+            <div class="meta-label">FORMAT</div>
+            <div class="meta-value">Pre-recorded, released weekly</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-label">SUBMISSIONS</div>
+            <div class="meta-value">Open to all Earth residents</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-label">VOTING</div>
+            <div class="meta-value">Free to register — account required</div>
+          </div>
+          <div class="meta-row">
+            <div class="meta-label">LOCATION</div>
+            <div class="meta-value">Selene Base Alpha, Mare Tranquillitatis<br>0.67°N 23.47°E · MOON</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="wordmark-sm">LUNAR LAW</span>
+    <span class="footer-mid">TRANSMISSION ONGOING</span>
+    <span class="footer-coords">0.67°N 23.47°E · MOON</span>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div class="overlay hidden" id="auth-overlay">
+    <div class="modal">
+      <button class="modal-close" id="auth-close">✕</button>
+      <div class="modal-kicker">IDENTITY VERIFICATION</div>
+      <h3 class="modal-heading">Register or Sign In</h3>
+      <p class="modal-subtext">Registration is free and open to all Earth residents. Enter your email for a sign-in link, or use a password.</p>
+      <div class="tab-row">
+        <button class="tab active" data-tab="magic">MAGIC LINK</button>
+        <button class="tab" data-tab="password">EMAIL + PASSWORD</button>
+      </div>
+      <div class="tab-panel" id="panel-magic">
+        <div class="field-group">
+          <label class="field-label">EMAIL ADDRESS</label>
+          <input type="email" class="field-input" id="magic-email" placeholder="your@email.com">
+        </div>
+        <button class="btn btn-primary full" id="magic-submit">SEND SIGN-IN LINK</button>
+        <div class="form-msg hidden" id="magic-msg"></div>
+      </div>
+      <div class="tab-panel hidden" id="panel-password">
+        <div class="field-group">
+          <label class="field-label">EMAIL ADDRESS</label>
+          <input type="email" class="field-input" id="pw-email" placeholder="your@email.com">
+        </div>
+        <div class="field-group">
+          <label class="field-label">PASSWORD</label>
+          <input type="password" class="field-input" id="pw-password" placeholder="••••••••">
+        </div>
+        <div class="btn-pair">
+          <button class="btn btn-primary" id="pw-signin">SIGN IN</button>
+          <button class="btn btn-outline" id="pw-signup">REGISTER</button>
+        </div>
+        <div class="form-msg hidden" id="pw-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Law Detail Modal -->
+  <div class="overlay hidden" id="law-overlay">
+    <div class="modal modal-lg">
+      <button class="modal-close" id="law-close">✕</button>
+      <div class="detail-top">
+        <div class="detail-code" id="d-code"></div>
+        <div class="status-badge" id="d-status-badge"></div>
+      </div>
+      <h2 class="detail-title" id="d-title"></h2>
+      <div class="detail-meta-line">
+        <span id="d-proposer"></span>
+        <span class="dot-sep">·</span>
+        <span id="d-episode-ref"></span>
+      </div>
+
+      <div class="detail-sections">
+        <div class="detail-section">
+          <div class="ds-label">FULL TEXT</div>
+          <div class="ds-body" id="d-full-text"></div>
+        </div>
+        <div class="detail-section" id="d-excerpt-wrap">
+          <div class="ds-label">TRANSCRIPT EXCERPT — <span id="d-ep-label"></span></div>
+          <blockquote class="ds-excerpt" id="d-excerpt"></blockquote>
+        </div>
+      </div>
+
+      <div class="vote-block">
+        <div class="vote-bar-wrap">
+          <div class="vote-bar-track">
+            <div class="vote-bar-fill" id="d-vote-fill" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="vote-stats" id="d-vote-stats">— votes</div>
+        <div class="vote-actions" id="d-vote-actions">
+          <button class="btn btn-for" id="vote-for">VOTE IN FAVOUR</button>
+          <button class="btn btn-against" id="vote-against">VOTE AGAINST</button>
+        </div>
+        <div class="vote-done hidden" id="d-vote-done">
+          <span id="d-vote-done-msg"></span>
+          <button class="btn btn-ghost-sm" id="vote-change">CHANGE VOTE</button>
+        </div>
+        <div class="vote-gated hidden" id="d-vote-gated">
+          <span>Sign in to cast your vote.</span>
+          <button class="btn btn-primary-sm" id="d-gated-signin">SIGN IN</button>
+        </div>
+      </div>
+
+      <div class="ep-link-block hidden" id="d-ep-link-block">
+        <div class="ds-label">FULL EPISODE</div>
+        <a class="ep-link" id="d-ep-link" href="#" target="_blank">
+          <span id="d-ep-num"></span><span class="ep-sep"> — </span><span id="d-ep-title"></span>
+          <span class="ep-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
