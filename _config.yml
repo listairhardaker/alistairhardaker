@@ -1,3 +1,1 @@
-exclude:
-  - schema.sql
-  - config.js
+theme: jekyll-theme-cayman
